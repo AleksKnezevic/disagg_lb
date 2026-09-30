@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.log
+*.pid
+.env
+.venv/
+python_env/
+.cache/
+responses/
+
+# Model checkpoints and generated TTNN artifacts are far too large for Git.
+*.safetensors
+*.bin
+*.ttnn

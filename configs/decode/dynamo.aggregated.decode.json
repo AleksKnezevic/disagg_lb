@@ -1,0 +1,39 @@
+{
+  "_comment": [
+    "Mistral Small 4 aggregated decode-only worker on one 4x2 LoudBox.",
+    "The decode ring performs prompt prefill locally; no prefill worker, KV Manager, or migration is used.",
+    "Validated LoudBox latency geometry: tp=1, one slot, 8192-token context."
+  ],
+  "runtime": {
+    "role": "decode",
+    "decode_backend": "base",
+    "max_slots": 1,
+    "max_seq_len": 8192,
+    "kv_block_size": 64,
+    "chunk_size": 8,
+    "evict_enabled": true,
+    "admit_max_attempts": 5,
+    "admit_backoff_ms": 50,
+    "admit_backoff_factor": 1.5,
+    "admit_jitter_pct": 20,
+    "pipeline_inflight_cap": 1
+  },
+  "device": {
+    "kind": "device",
+    "connect_timeout_ms": 1800000,
+    "decode": {
+      "wire_format": "blaze",
+      "h2d_socket_id": "mistral4",
+      "d2h_socket_id": "mistral4",
+      "shutdown_timeout_ms": 10000
+    },
+    "workload": {
+      "manage": false,
+      "vars": {},
+      "env": {},
+      "launcher": [],
+      "command": "scripts/mistral4/serve_mistral4_ring.sh",
+      "args": []
+    }
+  }
+}
