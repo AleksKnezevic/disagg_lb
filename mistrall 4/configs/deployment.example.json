@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "name": "mistral4-demo",
+  "namespace": "mistral4-demo",
+  "model_name": "mistral4",
+  "paths": {
+    "repo": "${DISAGG_REPO}",
+    "dgen": "${DISAGG_DGEN}",
+    "prefill_metal": "${DISAGG_PREFILL_METAL}",
+    "checkpoint": "${DISAGG_CHECKPOINT}",
+    "runtime": "${DISAGG_RUNTIME}",
+    "prefill_cache": "${DISAGG_PREFILL_CACHE}",
+    "decode_cache": "${DISAGG_DECODE_CACHE}",
+    "prefill_jit": "${DISAGG_PREFILL_JIT}",
+    "decode_jit": "${DISAGG_DECODE_JIT}",
+    "mpi_lib": ""
+  },
+  "nodes": {
+    "prefill": {
+      "ip": "192.0.2.10",
+      "hostname": "prefill-host",
+      "ssh": {
+        "host": "prefill-host",
+        "user": "your-user",
+        "port": 22,
+        "options": []
+      },
+      "runner": {
+        "mode": "ird",
+        "hostname": "prefill-reservation",
+        "container": "prefill-reservation",
+        "user": "your-user",
+        "ip": "172.17.0.2",
+        "grid": [
+          12,
+          10
+        ]
+      }
+    },
+    "decode": {
+      "ip": "192.0.2.20",
+      "hostname": "decode-host",
+      "ssh": {
+        "host": "decode-host",
+        "user": "your-user",
+        "port": 22,
+        "options": []
+      },
+      "runner": {
+        "mode": "ird",
+        "hostname": "decode-reservation",
+        "container": "decode-reservation",
+        "user": "your-user",
+        "ip": "172.17.0.2",
+        "grid": [
+          13,
+          10
+        ]
+      }
+    }
+  },
+  "ports": {
+    "api": 8000,
+    "etcd": 2379,
+    "etcd_peer": 2380,
+    "nats": 4222,
+    "kv_ingress": 9093,
+    "kv_control": 19071,
+    "response": 19101,
+    "kvm_control": 18650,
+    "kvm_health": 18081,
+    "worker_health": 18082
+  },
+  "docker_argv": [
+    "sudo",
+    "-n",
+    "docker"
+  ],
+  "images": {
+    "kvm": "kv-manager:m4-lb-disagg",
+    "nats": "nats:2.10-alpine"
+  },
+  "pins": {
+    "dgen": "ba4c33e33752ee19223b2d219c319dd4ed703b8d",
+    "blaze": "1e6fce22043c98a194f1b3bfc23928e40136c4e0",
+    "decode_metal": "cc834df1b8baa458c4b40559c9c2242edec541bb",
+    "prefill_metal": "2ff8a0ca3d1cfef84dbe3e9e90631166ef0861bd"
+  },
+  "timeouts": {
+    "runner_start": 10800,
+    "service_start": 180,
+    "stop": 90,
+    "request": 180
+  }
+}

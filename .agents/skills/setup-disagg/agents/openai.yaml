@@ -1,0 +1,4 @@
+interface:
+  display_name: "Set up disaggregated serving"
+  short_description: "Set up model-specific disagg on bare metal or IRD"
+  default_prompt: "Use $setup-disagg to bring up and validate disaggregated serving on my prefill and decode devices."

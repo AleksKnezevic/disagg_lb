@@ -23,7 +23,7 @@ commit. No source patches were needed.
 
 ```bash
 export DGEN=$PWD/tt-d-gen
-export ASSETS=$PWD/disagg_lb
+export ASSETS="$PWD/disagg_lb/mistrall 4"
 export WEIGHTS=/path/to/Mistral-Small-4-119B-2603
 export BLAZE_WEIGHT_CACHE=/path/to/mistral4-weight-cache
 export SERVED_MODEL=mistralai/Mistral-Small-4-119B-2603
@@ -63,6 +63,13 @@ test -f "$WEIGHTS/tokenizer.json"
 
 ## Reset and link check
 
+Check the **compute grid**, not only the P150 board label. The pinned Mistral
+configuration requires `13x10` workers: its L1 LM head uses 128 cores and its
+pipeline sockets use column 12. An eight-card P150 LoudBox reporting `12x10`
+cannot run this configuration unchanged. The mesh-open check below prints the
+actual slow-dispatch grid; successful links alone do not establish model
+compatibility. See [the bh-lb-17 attempt](DECODE_HOST_17_STATUS.md).
+
 Only reset when no other workload owns the box:
 
 ```bash
@@ -82,7 +89,7 @@ Choose the routable address of this host. Do not copy an address from another
 machine's logs.
 
 ```bash
-export FRONTEND_IP=<routable-host-ip>
+export FRONTEND_IP="<routable-host-ip>"
 cd "$DGEN"
 ETCD_HOST="$FRONTEND_IP" \
   ./adapters/dynamo/launch_frontend.sh --fresh --router-mode kv

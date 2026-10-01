@@ -31,7 +31,7 @@ Clone this repository and select machine-local paths:
 
 ```bash
 export M4_ROOT=/localdev/$USER
-export M4_ASSETS=$M4_ROOT/disagg_lb
+export M4_ASSETS="$M4_ROOT/disagg_lb/mistrall 4"
 export M4_METAL=$M4_ROOT/tt-metal-mistral4-prefill
 export M4_MODEL=$M4_ROOT/models/Mistral-Small-4-119B-2603
 export M4_CACHE_ROOT=$M4_ROOT/.cache/mistral4-prefill-ttnn
